@@ -39,9 +39,9 @@ private extension MainTabbarController {
     }
     
     func setupTabBarItem() {
-        let searchVC = SearchViewController()
-        let searchNavVC = UINavigationController(rootViewController: searchVC)
-        searchNavVC.tabBarItem = UITabBarItem(title: "Search",
+        let mainVC = MainViewController()
+        let mainNavVC = UINavigationController(rootViewController: mainVC)
+        mainNavVC.tabBarItem = UITabBarItem(title: "Search",
                                               image: UIImage(systemName: "magnifyingglass"),
                                               selectedImage: UIImage(systemName: "magnifyingglass"))
         
@@ -51,6 +51,6 @@ private extension MainTabbarController {
                                               image: UIImage(systemName: "heart"),
                                               selectedImage: UIImage(systemName: "heart"))
         
-        viewControllers = [searchNavVC, likeNavVC]
+        viewControllers = [mainNavVC, likeNavVC]
     }
 }
