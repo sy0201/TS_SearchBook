@@ -6,12 +6,21 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CB28584E2D1D23E500B5F1B6 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = CB28584D2D1D23E500B5F1B6 /* Alamofire */; };
+		CB2858512D1D244900B5F1B6 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CB2858502D1D244900B5F1B6 /* SnapKit */; };
+		CB2858542D1D24A400B5F1B6 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = CB2858532D1D24A400B5F1B6 /* RxCocoa */; };
+		CB2858562D1D24A400B5F1B6 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB2858552D1D24A400B5F1B6 /* RxSwift */; };
+		CB2858592D1D336500B5F1B6 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = CB2858582D1D336500B5F1B6 /* Moya */; };
+		CB28585B2D1D336500B5F1B6 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = CB28585A2D1D336500B5F1B6 /* RxMoya */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		CB2856772D1CD88900B5F1B6 /* SearchBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		CB28568C2D1CD88C00B5F1B6 /* Exceptions for "SearchBook" folder in "SearchBook" target */ = {
+		CB2858A92D1D3F0900B5F1B6 /* Exceptions for "SearchBook" folder in "SearchBook" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Support/Info.plist,
@@ -21,10 +30,10 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		CB2856792D1CD88900B5F1B6 /* SearchBook */ = {
+		CB28589D2D1D3F0800B5F1B6 /* SearchBook */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				CB28568C2D1CD88C00B5F1B6 /* Exceptions for "SearchBook" folder in "SearchBook" target */,
+				CB2858A92D1D3F0900B5F1B6 /* Exceptions for "SearchBook" folder in "SearchBook" target */,
 			);
 			path = SearchBook;
 			sourceTree = "<group>";
@@ -36,6 +45,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB28585B2D1D336500B5F1B6 /* RxMoya in Frameworks */,
+				CB2858542D1D24A400B5F1B6 /* RxCocoa in Frameworks */,
+				CB28584E2D1D23E500B5F1B6 /* Alamofire in Frameworks */,
+				CB2858562D1D24A400B5F1B6 /* RxSwift in Frameworks */,
+				CB2858592D1D336500B5F1B6 /* Moya in Frameworks */,
+				CB2858512D1D244900B5F1B6 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,7 +60,7 @@
 		CB28566E2D1CD88900B5F1B6 = {
 			isa = PBXGroup;
 			children = (
-				CB2856792D1CD88900B5F1B6 /* SearchBook */,
+				CB28589D2D1D3F0800B5F1B6 /* SearchBook */,
 				CB2856782D1CD88900B5F1B6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -74,10 +89,16 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				CB2856792D1CD88900B5F1B6 /* SearchBook */,
+				CB28589D2D1D3F0800B5F1B6 /* SearchBook */,
 			);
 			name = SearchBook;
 			packageProductDependencies = (
+				CB28584D2D1D23E500B5F1B6 /* Alamofire */,
+				CB2858502D1D244900B5F1B6 /* SnapKit */,
+				CB2858532D1D24A400B5F1B6 /* RxCocoa */,
+				CB2858552D1D24A400B5F1B6 /* RxSwift */,
+				CB2858582D1D336500B5F1B6 /* Moya */,
+				CB28585A2D1D336500B5F1B6 /* RxMoya */,
 			);
 			productName = SearchBook;
 			productReference = CB2856772D1CD88900B5F1B6 /* SearchBook.app */;
@@ -107,6 +128,12 @@
 			);
 			mainGroup = CB28566E2D1CD88900B5F1B6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CB28584C2D1D23E500B5F1B6 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				CB28584F2D1D244900B5F1B6 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CB2858522D1D24A400B5F1B6 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				CB2858572D1D336500B5F1B6 /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CB2856782D1CD88900B5F1B6 /* Products */;
 			projectDirPath = "";
@@ -151,7 +178,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -182,7 +209,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -252,7 +279,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -309,7 +336,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -341,6 +368,74 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CB28584C2D1D23E500B5F1B6 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		CB28584F2D1D244900B5F1B6 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		CB2858522D1D24A400B5F1B6 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.8.0;
+			};
+		};
+		CB2858572D1D336500B5F1B6 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CB28584D2D1D23E500B5F1B6 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB28584C2D1D23E500B5F1B6 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		CB2858502D1D244900B5F1B6 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB28584F2D1D244900B5F1B6 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		CB2858532D1D24A400B5F1B6 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB2858522D1D24A400B5F1B6 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		CB2858552D1D24A400B5F1B6 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB2858522D1D24A400B5F1B6 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		CB2858582D1D336500B5F1B6 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB2858572D1D336500B5F1B6 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		CB28585A2D1D336500B5F1B6 /* RxMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB2858572D1D336500B5F1B6 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = RxMoya;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CB28566F2D1CD88900B5F1B6 /* Project object */;
 }
