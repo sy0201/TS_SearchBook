@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import RxMoya
+import RxSwift
+import Moya
 
 // Section Layout 설정
 fileprivate enum Section: Hashable {
@@ -40,7 +43,8 @@ final class MainViewController: UIViewController {
     }()
     
     private let mainView = MainView()
-    
+    private let provider = MoyaProvider<BookAPI>()
+    private let disposeBag = DisposeBag()
     
     override func loadView() {
         self.view = mainView
@@ -50,6 +54,24 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        fetchBooks(searchText: "한강")
+    }
+    
+    private func fetchBooks(searchText: String) {
+        provider.rx.request(.getBookInfo(searchText: searchText))
+            .map(BookResult.self)
+            .subscribe { event in
+                switch event {
+                case .success(let bookResult):
+                    print("Fetched books: \(bookResult.bookModels)")
+                case .failure(let error):
+                    if let moyaError = error as? MoyaError,
+                       let response = moyaError.response {
+                        print("Response: \(String(data: response.data, encoding: .utf8) ?? "nil")")
+                    }
+                    print("Error: \(error.localizedDescription)")
+                }
+            }.disposed(by: disposeBag)
     }
 }
 

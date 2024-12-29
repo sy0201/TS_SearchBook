@@ -10,8 +10,8 @@
 		CB2858512D1D244900B5F1B6 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CB2858502D1D244900B5F1B6 /* SnapKit */; };
 		CB2858542D1D24A400B5F1B6 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = CB2858532D1D24A400B5F1B6 /* RxCocoa */; };
 		CB2858562D1D24A400B5F1B6 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB2858552D1D24A400B5F1B6 /* RxSwift */; };
-		CB2858592D1D336500B5F1B6 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = CB2858582D1D336500B5F1B6 /* Moya */; };
-		CB28585B2D1D336500B5F1B6 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = CB28585A2D1D336500B5F1B6 /* RxMoya */; };
+		CB285A2F2D1F8F6100B5F1B6 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = CB285A2E2D1F8F6100B5F1B6 /* Moya */; };
+		CB285A312D1F8F6100B5F1B6 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = CB285A302D1F8F6100B5F1B6 /* RxMoya */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,10 +44,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB28585B2D1D336500B5F1B6 /* RxMoya in Frameworks */,
+				CB285A312D1F8F6100B5F1B6 /* RxMoya in Frameworks */,
 				CB2858542D1D24A400B5F1B6 /* RxCocoa in Frameworks */,
 				CB2858562D1D24A400B5F1B6 /* RxSwift in Frameworks */,
-				CB2858592D1D336500B5F1B6 /* Moya in Frameworks */,
+				CB285A2F2D1F8F6100B5F1B6 /* Moya in Frameworks */,
 				CB2858512D1D244900B5F1B6 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,8 +94,8 @@
 				CB2858502D1D244900B5F1B6 /* SnapKit */,
 				CB2858532D1D24A400B5F1B6 /* RxCocoa */,
 				CB2858552D1D24A400B5F1B6 /* RxSwift */,
-				CB2858582D1D336500B5F1B6 /* Moya */,
-				CB28585A2D1D336500B5F1B6 /* RxMoya */,
+				CB285A2E2D1F8F6100B5F1B6 /* Moya */,
+				CB285A302D1F8F6100B5F1B6 /* RxMoya */,
 			);
 			productName = SearchBook;
 			productReference = CB2856772D1CD88900B5F1B6 /* SearchBook.app */;
@@ -128,7 +128,7 @@
 			packageReferences = (
 				CB28584F2D1D244900B5F1B6 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				CB2858522D1D24A400B5F1B6 /* XCRemoteSwiftPackageReference "RxSwift" */,
-				CB2858572D1D336500B5F1B6 /* XCRemoteSwiftPackageReference "Moya" */,
+				CB285A2D2D1F8F6100B5F1B6 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CB2856782D1CD88900B5F1B6 /* Products */;
@@ -225,6 +225,8 @@
 		};
 		CB2856902D1CD88C00B5F1B6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = CB28589D2D1D3F0800B5F1B6 /* SearchBook */;
+			baseConfigurationReferenceRelativePath = Resource/Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -288,6 +290,8 @@
 		};
 		CB2856912D1CD88C00B5F1B6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = CB28589D2D1D3F0800B5F1B6 /* SearchBook */;
+			baseConfigurationReferenceRelativePath = Resource/Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -382,7 +386,7 @@
 				minimumVersion = 6.8.0;
 			};
 		};
-		CB2858572D1D336500B5F1B6 /* XCRemoteSwiftPackageReference "Moya" */ = {
+		CB285A2D2D1F8F6100B5F1B6 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya.git";
 			requirement = {
@@ -408,14 +412,14 @@
 			package = CB2858522D1D24A400B5F1B6 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
-		CB2858582D1D336500B5F1B6 /* Moya */ = {
+		CB285A2E2D1F8F6100B5F1B6 /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CB2858572D1D336500B5F1B6 /* XCRemoteSwiftPackageReference "Moya" */;
+			package = CB285A2D2D1F8F6100B5F1B6 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
 		};
-		CB28585A2D1D336500B5F1B6 /* RxMoya */ = {
+		CB285A302D1F8F6100B5F1B6 /* RxMoya */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CB2858572D1D336500B5F1B6 /* XCRemoteSwiftPackageReference "Moya" */;
+			package = CB285A2D2D1F8F6100B5F1B6 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = RxMoya;
 		};
 /* End XCSwiftPackageProductDependency section */
