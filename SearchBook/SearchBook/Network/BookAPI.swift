@@ -20,7 +20,7 @@ extension BookAPI: TargetType {
     var path: String {
         switch self {
         case .getBookInfo(_):
-            return "v3/search/book"
+            return "/v3/search/book"
         }
     }
     

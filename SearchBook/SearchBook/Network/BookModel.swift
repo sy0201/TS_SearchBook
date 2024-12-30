@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BookResult: Codable {
+struct BookResult: Decodable {
     let bookModels: [BookModel]
     let meta: Meta
     
@@ -17,7 +17,7 @@ struct BookResult: Codable {
     }
 }
 
-struct BookModel: Codable {
+struct BookModel: Decodable, Hashable {
     let authors: [String]?
     let contents: String?
     let datetime: String?
