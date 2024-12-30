@@ -17,7 +17,7 @@ fileprivate enum Section: Hashable {
 }
 
 fileprivate enum Item: Hashable {
-    case recentlyPublichedBook(BookModel)  // 최근 출판된 책(date기준으로 가져올 데이터)
+    case nobelResultBook(BookModel)  // 노벨 문학상 데이터
     case searchResultBook(BookModel)  // 검색 결과 책
 }
 
@@ -44,7 +44,7 @@ final class MainViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout())
         
         collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier)
-        collectionView.register(RecentlyPublishedBookCVC.self, forCellWithReuseIdentifier: RecentlyPublishedBookCVC.reuseIdentifier)
+        collectionView.register(NobelPrizeCVC.self, forCellWithReuseIdentifier: NobelPrizeCVC.reuseIdentifier)
         return collectionView
     }()
     private let viewModel: BookViewModel
@@ -79,7 +79,7 @@ private extension MainViewController {
     }
     
     func bindViewModel() {
-        viewModel.bookSubject
+        viewModel.nobelBookSubject
             .observe(on: MainScheduler.instance)
             .bind { [weak self] books in
                 self?.updateSnapshot(with: books)
@@ -95,7 +95,7 @@ private extension MainViewController {
         
         // 최근 출판된 책 필터링
         let recentlyPublishedBooks = books
-            .map { Item.recentlyPublichedBook($0) }
+            .map { Item.nobelResultBook($0) }
         
         let searchResultBooks = books
             .prefix(5)
@@ -112,14 +112,14 @@ private extension MainViewController {
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
             print("item:", item)
             switch item {
-            case .recentlyPublichedBook(let bookInfo):
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentlyPublishedBookCVC.reuseIdentifier, for: indexPath) as? RecentlyPublishedBookCVC
+            case .nobelResultBook(let bookInfo):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NobelPrizeCVC.reuseIdentifier, for: indexPath) as? NobelPrizeCVC
                 
                 cell?.configure(thumbnailImage: bookInfo.thumbnail ?? "", title: bookInfo.title ?? "", author: bookInfo.authors?[0] ?? "")
                 return cell
                 
             case .searchResultBook:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentlyPublishedBookCVC.reuseIdentifier, for: indexPath) as? RecentlyPublishedBookCVC
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NobelPrizeCVC.reuseIdentifier, for: indexPath) as? NobelPrizeCVC
                 return cell
             }
         })
@@ -173,13 +173,13 @@ private extension MainViewController {
         }, configuration: config)
     }
     
-    // 최근 출판된 책 Section Layout
+    // 노벨 문학상 Section Layout
     func createHorizontalSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4), heightDimension: .absolute(320))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4), heightDimension: .absolute(190))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -207,6 +207,7 @@ private extension MainViewController {
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+        header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
         section.boundarySupplementaryItems = [header]
         
         return section

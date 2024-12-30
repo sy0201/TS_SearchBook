@@ -13,7 +13,7 @@ final class BookViewModel {
     private let disposeBag = DisposeBag()
     
     // View가 구독할 Subject
-    let bookSubject = BehaviorSubject(value: [BookModel]())
+    //let bookSubject = BehaviorSubject(value: [BookModel]())
     
     let nobelBookSubject = BehaviorSubject<[BookModel]>(value: [])
     let searchResultSubject = BehaviorSubject<[BookModel]>(value: [])
@@ -34,12 +34,12 @@ final class BookViewModel {
         repository.fetchBooks(searchText: searchText)
             .map { $0.bookModels }
             .subscribe(onNext: { [weak self] books in
-                self?.bookSubject.onNext(books)
+                self?.nobelBookSubject.onNext(books)
                 print("books \(books)")
             }, onError: { error in
                 print("Error fetching books: \(error)")
                 // 에러 발생 시 빈 배열 전달
-                self.bookSubject.onNext([])
+                self.nobelBookSubject.onNext([])
             })
             .disposed(by: disposeBag)
     }

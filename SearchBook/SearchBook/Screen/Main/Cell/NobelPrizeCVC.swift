@@ -1,5 +1,5 @@
 //
-//  RecentlyPublishedBookCVC.swift
+//  NobelPrize.swift
 //  SearchBook
 //
 //  Created by t2023-m0019 on 12/26/24.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-final class RecentlyPublishedBookCVC: UICollectionViewCell, ReuseIdentifying {
+final class NobelPrizeCVC: UICollectionViewCell, ReuseIdentifying {
     let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
@@ -49,7 +49,7 @@ final class RecentlyPublishedBookCVC: UICollectionViewCell, ReuseIdentifying {
     }
 }
 
-private extension RecentlyPublishedBookCVC {
+private extension NobelPrizeCVC {
     func setupUI() {
         addSubViews([thumbnailImageView,
                      titleLabel,
