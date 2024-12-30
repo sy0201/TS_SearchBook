@@ -25,9 +25,13 @@ final class HeaderView: UICollectionReusableView, ReuseIdentifying {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func configure(title: String) {
+        titleLabel.text = title
+    }
 }
 
-extension HeaderView {
+private extension HeaderView {
     func setupUI() {
         addSubview(titleLabel)
     }
