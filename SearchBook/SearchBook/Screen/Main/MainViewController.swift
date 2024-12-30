@@ -6,25 +6,24 @@
 //
 
 import UIKit
-import RxMoya
+import SnapKit
 import RxSwift
-import Moya
+import RxCocoa
 
 // Section Layout 설정
 fileprivate enum Section: Hashable {
-    case horizontal
-    case vertical
+    case horizontal(String)
+    case vertical(String)
 }
 
 fileprivate enum Item: Hashable {
-    case recentlyPublichedBook  // 최근 출판된 책(date기준으로 가져올 데이터)
-    case searchResultBook  // 검색 결과 책
+    case recentlyPublichedBook(BookModel)  // 최근 출판된 책(date기준으로 가져올 데이터)
+    case searchResultBook(BookModel)  // 검색 결과 책
 }
 
 final class MainViewController: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     
-    // TODO: - Rx로 수정 필요
     lazy var searchController: UISearchController = {
         var searchController = UISearchController(searchResultsController: searchResultListVC)
         searchController.searchResultsUpdater = searchResultListVC  // 사용자가 입력한 검색어 업데이트할 대상 설정(현재 searchResultListVC가 업데이트 대상)
@@ -38,40 +37,35 @@ final class MainViewController: UIViewController {
     
     lazy var searchResultListVC: SearchResultListViewController = {
         let viewController = SearchResultListViewController()
-        // TODO: - Rx로 데이터 전달
         return viewController
     }()
     
-    private let mainView = MainView()
-    private let provider = MoyaProvider<BookAPI>()
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout())
+        
+        collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier)
+        collectionView.register(RecentlyPublishedBookCVC.self, forCellWithReuseIdentifier: RecentlyPublishedBookCVC.reuseIdentifier)
+        return collectionView
+    }()
+    private let viewModel: BookViewModel
     private let disposeBag = DisposeBag()
     
-    override func loadView() {
-        self.view = mainView
+    init(viewModel: BookViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        fetchBooks(searchText: "한강")
-    }
-    
-    private func fetchBooks(searchText: String) {
-        provider.rx.request(.getBookInfo(searchText: searchText))
-            .map(BookResult.self)
-            .subscribe { event in
-                switch event {
-                case .success(let bookResult):
-                    print("Fetched books: \(bookResult.bookModels)")
-                case .failure(let error):
-                    if let moyaError = error as? MoyaError,
-                       let response = moyaError.response {
-                        print("Response: \(String(data: response.data, encoding: .utf8) ?? "nil")")
-                    }
-                    print("Error: \(error.localizedDescription)")
-                }
-            }.disposed(by: disposeBag)
+        setupCollectionView()
+        setupDataSource()
+        bindViewModel()
     }
 }
 
@@ -83,19 +77,82 @@ private extension MainViewController {
         navigationItem.title = "책 검색"
         navigationItem.searchController = searchController
     }
-}
-
-// MARK: - UICollectionView Method
-
-private extension MainViewController {
-    func setupCollectionView() {
-        mainView.collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout())
-        
-        mainView.collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier)
-        mainView.collectionView.register(RecentlyPublishedBookCollectionViewCell.self, forCellWithReuseIdentifier: RecentlyPublishedBookCollectionViewCell.reuseIdentifier)
+    
+    func bindViewModel() {
+        viewModel.bookSubject
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] books in
+                self?.updateSnapshot(with: books)
+                print("받은 도서 개수: \(books.count)")
+            }
+            .disposed(by: disposeBag)
     }
     
+    func updateSnapshot(with books: [BookModel]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        
+        snapshot.appendSections([.horizontal("노벨 문학상 에디션"), .vertical("검색 결과")])
+        
+        // 최근 출판된 책 필터링
+        let recentlyPublishedBooks = books
+            .map { Item.recentlyPublichedBook($0) }
+        
+        let searchResultBooks = books
+            .prefix(5)
+            .map { Item.searchResultBook($0) }
+        
+        snapshot.appendItems(recentlyPublishedBooks, toSection: .horizontal("노벨 문학상 에디션"))
+        snapshot.appendItems(searchResultBooks, toSection: .vertical("검색 결과"))
+        
+        dataSource?.apply(snapshot)
+    }
+    
+    func setupDataSource() {
+        // cell dataSource
+        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, item in
+            print("item:", item)
+            switch item {
+            case .recentlyPublichedBook(let bookInfo):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentlyPublishedBookCVC.reuseIdentifier, for: indexPath) as? RecentlyPublishedBookCVC
+                
+                cell?.configure(thumbnailImage: bookInfo.thumbnail ?? "", title: bookInfo.title ?? "", author: bookInfo.authors?[0] ?? "")
+                return cell
+                
+            case .searchResultBook:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentlyPublishedBookCVC.reuseIdentifier, for: indexPath) as? RecentlyPublishedBookCVC
+                return cell
+            }
+        })
+        
+        // header dataSource
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView in
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.reuseIdentifier, for: indexPath)
+            let section = self.dataSource?.sectionIdentifier(for: indexPath.section)
+            
+            switch section {
+            case .horizontal(let title), .vertical(let title):
+                (header as? HeaderView)?.configure(title: title)
+            default:
+                print("Default")
+            }
+            return header
+        }
+    }
+    
+    func setupCollectionView() {
+        self.view.addSubview(collectionView)
+        
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+}
+
+// MARK: - UI Method
+
+private extension MainViewController {
     func createLayout() -> UICollectionViewCompositionalLayout {
+        print("Creating collection view layout")
         let config = UICollectionViewCompositionalLayoutConfiguration()
         config.interSectionSpacing = 14
         
@@ -120,6 +177,7 @@ private extension MainViewController {
     func createHorizontalSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4), heightDimension: .absolute(320))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
@@ -129,6 +187,7 @@ private extension MainViewController {
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(44))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+        header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
         section.boundarySupplementaryItems = [header]
         
         return section
@@ -151,34 +210,5 @@ private extension MainViewController {
         section.boundarySupplementaryItems = [header]
         
         return section
-    }
-    
-    func setupDataSource() {
-        // cell dataSource
-        dataSource = UICollectionViewDiffableDataSource(collectionView: mainView.collectionView, cellProvider: { collectionView, indexPath, item in
-            
-            switch item {
-            case .recentlyPublichedBook:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentlyPublishedBookCollectionViewCell.reuseIdentifier, for: indexPath) as? RecentlyPublishedBookCollectionViewCell
-                return cell
-                
-            case .searchResultBook:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentlyPublishedBookCollectionViewCell.reuseIdentifier, for: indexPath) as? RecentlyPublishedBookCollectionViewCell
-                return cell
-            }
-        })
-        // header dataSource
-        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath -> UICollectionReusableView in
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.reuseIdentifier, for: indexPath)
-            let section = self.dataSource?.sectionIdentifier(for: indexPath.section)
-            
-            switch section {
-            case .horizontal, .vertical:
-                print("Default")
-            default:
-                print("Default")
-            }
-            return header
-        }
     }
 }

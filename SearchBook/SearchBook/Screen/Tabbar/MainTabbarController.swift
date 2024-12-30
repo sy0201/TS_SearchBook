@@ -39,7 +39,11 @@ private extension MainTabbarController {
     }
     
     func setupTabBarItem() {
-        let mainVC = MainViewController()
+        let repository = BookRepository()
+        let viewModel = BookViewModel(repository: repository)
+        
+        let mainVC = MainViewController(viewModel: viewModel)
+        
         let mainNavVC = UINavigationController(rootViewController: mainVC)
         mainNavVC.tabBarItem = UITabBarItem(title: "Search",
                                               image: UIImage(systemName: "magnifyingglass"),
