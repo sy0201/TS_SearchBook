@@ -86,6 +86,26 @@ private extension MainViewController {
                 print("받은 도서 개수: \(books.count)")
             }
             .disposed(by: disposeBag)
+        
+        // Cell 탭 이벤트
+        collectionView.rx.itemSelected
+            .bind { indexPath in
+                print("indexPath \(indexPath)")
+                let item = self.dataSource?.itemIdentifier(for: indexPath)
+                
+                switch item {
+                case .nobelResultBook(let bookModel):
+                    print(bookModel)
+                    let viewController = DetailBookViewController()
+                    self.present(viewController, animated: true)
+                case .searchResultBook(let bookModel):
+                    print(bookModel)
+                    let viewController = DetailBookViewController()
+                    self.present(viewController, animated: true)
+                default:
+                    print("default")
+                }
+            }.disposed(by: disposeBag)
     }
     
     func updateSnapshot(with books: [BookModel]) {
